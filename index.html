@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="依膚色、底調與妝容風格，取得更細緻的口紅與眼影配色建議。">
+<title>COLOR NOTE｜美妝配色推薦</title>
+<style>
+:root{--ink:#262521;--muted:#77736c;--paper:#fbf9f5;--line:#e2ded6;--accent:#b77b72;--soft:#f1e8e1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#efeee9;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #b77b72;outline-offset:3px}
+.app{max-width:800px;margin:0 auto;min-height:100vh;background:var(--paper);box-shadow:0 0 40px #0000000a}
+header{padding:28px 24px 22px;border-bottom:1px solid var(--line)}.brand{font-size:11px;letter-spacing:3px;font-weight:800}
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px}
+h1{font-size:clamp(28px,6vw,42px);line-height:1.15;letter-spacing:-1.5px;margin:0;max-width:450px}
+.stamp{border:1px solid var(--line);border-radius:50%;width:72px;height:72px;display:grid;place-items:center;text-align:center;font-size:10px;line-height:1.5;letter-spacing:1px;flex-shrink:0}
+.intro{font-size:14px;line-height:1.8;color:var(--muted);margin:16px 0 0}.progress{height:3px;background:#e5e3dc;margin-top:22px;border-radius:10px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:var(--ink);transition:width .3s}
+main{padding:24px}.section-head{display:flex;align-items:baseline;gap:12px;margin:4px 0 14px}.num{font-size:11px;letter-spacing:2px;color:var(--accent);font-weight:800}
+h2{font-size:20px;margin:0;letter-spacing:-.4px}.hint{font-size:13px;color:var(--muted);line-height:1.7;margin:0 0 15px}.group{margin-bottom:30px}
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.choices.styles{grid-template-columns:repeat(2,minmax(0,1fr))}
+.choice{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px 12px;text-align:left;min-height:102px;transition:.2s;color:var(--ink)}
+.choice:hover{border-color:#aaa69d;transform:translateY(-1px)}.choice.active{border:2px solid var(--ink);background:#f4f0e9;box-shadow:inset 0 0 0 1px var(--ink)}
+.choice .symbol{font-size:23px;display:block;margin-bottom:10px}.choice strong{font-size:14px;display:block;margin-bottom:5px}.choice small{font-size:11px;line-height:1.5;color:var(--muted);display:block}
+.swatches{display:flex;gap:5px;margin-bottom:9px}.swatches i{display:block;width:20px;height:20px;border-radius:50%;border:1px solid #0000000d}
+.full{width:100%;border:0;border-radius:14px;background:var(--ink);color:white;padding:16px;font-weight:700;letter-spacing:.5px}.full:disabled{opacity:.35;cursor:not-allowed}
+.secondary{background:transparent;color:var(--ink);border:1px solid var(--line);margin-top:10px}
+.results{display:none;border-top:1px solid var(--line);padding-top:28px;margin-top:30px}.results.show{display:block;animation:fade .35s ease}
+.result-title{font-size:27px;letter-spacing:-1px;line-height:1.3;margin:10px 0}.result-desc{color:var(--muted);font-size:14px;line-height:1.8;margin:0 0 20px}
+.combo-tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:11px;color:var(--muted);margin-bottom:16px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.result-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.card-top{padding:15px 15px 11px}.card-label{font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:800}
+.card-name{font-size:18px;font-weight:800;margin:8px 0 5px}.card-copy{font-size:12px;color:var(--muted);line-height:1.7;margin:0}
+.palette-label{padding:10px 15px 14px;font-size:11px;color:var(--muted)}
+.tip{margin-top:14px;border-radius:14px;background:var(--soft);padding:16px;font-size:13px;line-height:1.8}.tip strong{display:block;margin-bottom:4px}
+.outfit{background:#f4eee8;border:1px solid #e8ddd3}.disclaimer{font-size:11px;color:#8b8981;line-height:1.7;margin-top:22px}
+footer{border-top:1px solid var(--line);padding:18px 24px 28px;text-align:center;font-size:10px;letter-spacing:2px;color:#8b8981}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:480px){header{padding:23px 19px 18px}main{padding:20px 18px}.stamp{width:60px;height:60px;font-size:9px}.choice{padding:12px 9px;min-height:100px}.choice strong{font-size:13px}.choices{gap:7px}.result-grid{gap:9px}.card-top{padding:12px}.card-name{font-size:16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.swatch-row{display:flex;gap:0;min-height:66px;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.swatch-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px 4px;background:#fff9}
+.swatch-dot{width:35px;height:35px;border-radius:50%;border:1px solid #00000012;box-shadow:inset 0 0 0 1px #ffffff35}
+.swatch-name{font-size:11px;text-align:center;line-height:1.3;color:var(--muted);word-break:keep-all}
+.style-inspo{display:flex;align-items:center;gap:15px;margin-top:12px;padding:17px;border:1px solid #eadfd8;border-radius:16px;background:linear-gradient(120deg,#fff8f3,#f6f0f4)}
+.inspo-icon{width:64px;height:64px;flex:0 0 64px;display:grid;place-items:center;border-radius:20px;background:#fff;font-size:34px;box-shadow:0 5px 15px #5c3d3010}
+.style-inspo strong{font-size:14px}.style-inspo p{margin:5px 0 0;font-size:13px;line-height:1.7;color:var(--muted)}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">COLOR NOTE&nbsp; / &nbsp;YOUR BEAUTY PALETTE</div>
+  <div class="header-row"><h1>找到真正適合你的<br>日常美妝色彩。</h1><div class="stamp">PERSONAL<br>COLOR<br>STUDIO</div></div>
+  <p class="intro">結合膚色明暗、底調與妝容風格，推薦口紅、眼影與穿搭方向，並用實際色卡呈現推薦色彩。<br>每一種選擇組合都有不同的美妝與穿搭提案。</p>
+  <div class="progress" role="progressbar" aria-label="完成進度" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span id="progress"></span></div>
+</header>
+<main>
+  <section class="group" aria-labelledby="skinHeading">
+    <div class="section-head"><span class="num">01 / SKIN</span><h2 id="skinHeading">你的膚色比較接近？</h2></div>
+    <p class="hint">依照平常素顏時的整體明暗選擇即可，不需要追求完全精準。</p>
+    <div class="choices">
+      <button type="button" class="choice" data-group="skin" data-value="fair" aria-pressed="false"><span class="symbol">◌</span><strong>白皙偏白</strong><small>明亮、較白的膚色</small></button>
+      <button type="button" class="choice" data-group="skin" data-value="light" aria-pressed="false"><span class="symbol">◍</span><strong>自然白</strong><small>白皙到一般膚色</small></button>
+      <button type="button" class="choice" data-group="skin" data-value="tan" aria-pressed="false"><span class="symbol">◉</span><strong>健康小麥</strong><small>偏深或帶日曬感</small></button>
+    </div>
+  </section>
+  <section class="group" aria-labelledby="toneHeading">
+    <div class="section-head"><span class="num">02 / UNDERTONE</span><h2 id="toneHeading">你覺得自己的底調是？</h2></div>
+    <p class="hint">不確定很正常！選「不確定／中性」也可以得到專屬建議。</p>
+    <div class="choices">
+      <button type="button" class="choice" data-group="tone" data-value="warm" aria-pressed="false"><span class="swatches"><i style="background:#d9a16e"></i><i style="background:#c66e56"></i></span><strong>偏暖調</strong><small>橘、金、珊瑚色常很順眼</small></button>
+      <button type="button" class="choice" data-group="tone" data-value="cool" aria-pressed="false"><span class="swatches"><i style="background:#b77b9a"></i><i style="background:#8c7da8"></i></span><strong>偏冷調</strong><small>玫瑰、莓果、冷粉色</small></button>
+      <button type="button" class="choice" data-group="tone" data-value="neutral" aria-pressed="false"><span class="swatches"><i style="background:#c58c7c"></i><i style="background:#a77d6a"></i></span><strong>不確定／中性</strong><small>自然百搭、平衡色系</small></button>
+    </div>
+  </section>
+  <section class="group" aria-labelledby="styleHeading">
+    <div class="section-head"><span class="num">03 / MOOD</span><h2 id="styleHeading">今天想要什麼風格？</h2></div>
+    <div class="choices styles">
+      <button type="button" class="choice" data-group="style" data-value="natural" aria-pressed="false"><span class="symbol">✳</span><strong>自然清透</strong><small>輕盈、乾淨，適合上課日常</small></button>
+      <button type="button" class="choice" data-group="style" data-value="sweet" aria-pressed="false"><span class="symbol">♡</span><strong>溫柔甜美</strong><small>柔粉、奶茶與淡淡光澤</small></button>
+      <button type="button" class="choice" data-group="style" data-value="cool" aria-pressed="false"><span class="symbol">✦</span><strong>清冷薄荷</strong><small>灰綠、冷粉，清爽有個性</small></button>
+      <button type="button" class="choice" data-group="style" data-value="elegant" aria-pressed="false"><span class="symbol">◇</span><strong>知性氣質</strong><small>低飽和、沉穩、有質感</small></button>
+    </div>
+  </section>
+  <button type="button" class="full" id="recommendBtn" disabled>查看我的專屬配色　↗</button>
+  <section class="results" id="results" aria-live="polite" aria-labelledby="resultTitle">
+    <div class="num">YOUR PERSONAL COLOR NOTE</div>
+    <h2 class="result-title" id="resultTitle">你的專屬配色</h2>
+    <div id="comboTag" class="combo-tag"></div>
+    <p class="result-desc" id="resultDesc"></p>
+    <div class="result-grid">
+      <article class="result-card"><div class="card-top"><div class="card-label">LIP COLOR / 口紅</div><div class="card-name" id="lipName"></div><p class="card-copy" id="lipCopy"></p></div><div class="swatch-row" id="lipSwatches" aria-label="口紅推薦色卡"></div><div class="palette-label" id="lipPalette"></div></article>
+      <article class="result-card"><div class="card-top"><div class="card-label">EYE COLOR / 眼影</div><div class="card-name" id="eyeName"></div><p class="card-copy" id="eyeCopy"></p></div><div class="swatch-row" id="eyeSwatches" aria-label="眼影推薦色卡"></div><div class="palette-label" id="eyePalette"></div></article>
+    </div>
+    <div class="tip"><strong>✧ 上妝小建議</strong><span id="tipText"></span></div>
+    <div class="style-inspo"><div class="inspo-icon" id="inspoIcon" aria-hidden="true">🌷</div><div><strong id="inspoTitle">今日風格靈感</strong><p id="inspoText"></p></div></div>
+    <div class="tip outfit"><strong>✧ 推薦穿搭風格</strong><span id="outfitText"></span></div>
+    <p class="disclaimer">配色是依照選項與預設色彩規則產生的美妝靈感，不是專業色彩診斷。螢幕顯色、光線與個人喜好都會影響實際效果，建議先試色再購買。</p>
+    <button type="button" class="full" id="copyBtn">複製我的配色建議</button>
+    <button type="button" class="full secondary" id="resetBtn">重新選擇</button>
+    <p class="disclaimer" id="copyStatus" role="status"></p>
+  </section>
+</main>
+<footer>COLOR NOTE · A LITTLE COLOR, A LITTLE YOU.</footer>
+</div>
+<script>
+"use strict";
+const state={skin:"",tone:"",style:""};
+const labels={
+ skin:{fair:"白皙偏白",light:"自然白",tan:"健康小麥"},
+ tone:{warm:"偏暖調",cool:"偏冷調",neutral:"不確定／中性"},
+ style:{natural:"自然清透",sweet:"溫柔甜美",cool:"清冷薄荷",elegant:"知性氣質"}
+};
+/* 每種底調都有獨立色票；每種風格都有自己的質地與妝容描述。 */
+const tones={
+ warm:{lip:["#e9a28d","#d47b62","#a95442"],eye:["#f0d7ad","#c99a6b","#8b6245"],name:"暖調",lipWord:"珊瑚、杏桃、磚橘",eyeWord:"香檳金、焦糖棕、暖可可"},
+ cool:{lip:["#dba0b0","#b96e8b","#824c6c"],eye:["#e2e0ec","#b6b5cb","#77798e"],name:"冷調",lipWord:"冷玫瑰、莓果、梅子",eyeWord:"霧粉紫、灰紫、石墨灰"},
+ neutral:{lip:["#d9a69a","#b9827c","#93645f"],eye:["#e9dfd0","#c4b09a","#817363"],name:"中性色",lipWord:"裸玫瑰、豆沙、玫瑰棕",eyeWord:"燕麥米、奶茶棕、柔霧咖"}
+};
+const skins={
+ fair:{name:"白皙偏白",lipShift:"柔霧",eye:"淺色打底、深色少量疊加",note:"避免整片使用過深色，讓妝感保持明亮。"},
+ light:{name:"自然白",lipShift:"平衡",eye:"中等明度暈染、眼尾加深",note:"中等明度的唇色與眼影最容易融入日常妝容。"},
+ tan:{name:"健康小麥",lipShift:"濃郁",eye:"以中深色建立層次、亮色點綴",note:"選擇有存在感的中等至深色，能讓五官更立體。"}
+};
+const styles={
+ natural:{lipName:"柔霧日常唇",eyeName:"透光大地眼",lipDesc:"薄擦有氣色、疊擦增加色彩深度，適合日常與上課。",eyeDesc:"用淺色打底，眼尾以中棕輕輕加深，保留乾淨感。",tip:"底妝薄透，腮紅少量暈開；口紅先薄擦一層，再依場合疊色。",outfit:"白色或燕麥色上衣搭配直筒牛仔褲、米色長裙；選帆布鞋、樂福鞋與小型肩背包，整體清爽耐看。"},
+ sweet:{lipName:"水潤蜜糖唇",eyeName:"柔焦甜心眼",lipDesc:"帶柔和光澤的唇妝，讓整體看起來溫柔、親近。",eyeDesc:"淺色鋪滿眼窩，主色放在眼褶，眼尾用同色系加深。",tip:"唇頰選同色系，眼頭可點少量珠光，避免腮紅與唇色互相搶戲。",outfit:"選奶油白、柔粉、淺灰或淡紫的針織衫、短版外套與百褶裙；搭配芭蕾平底鞋、小耳環或細緻髮飾，營造溫柔甜感。"},
+ cool:{lipName:"冷霧個性唇",eyeName:"薄荷灰綠眼",lipDesc:"冷調、帶灰感的唇色，營造清爽俐落的妝容重點。",eyeDesc:"灰棕作基底，薄荷或灰綠只放在眼頭、下眼影等小區域。",tip:"用灰棕平衡薄荷色，眼線保持細緻；唇妝選霧面或柔霧質地更協調。",outfit:"以薄荷綠、霧藍、冷灰、白色為主，搭配俐落襯衫、短版西外套、直筒褲或簡約長裙；銀色飾品與乾淨線條更有清冷感。"},
+ elegant:{lipName:"絲絨氣質唇",eyeName:"低飽和輪廓眼",lipDesc:"有深度但不過度鮮豔的唇色，適合正式場合或成熟俐落風格。",eyeDesc:"以低飽和中深色打造輪廓，眼線與眉色保持柔和。",tip:"把重點放在唇色或眼妝其中一處；若唇色較深，眼影就保持乾淨。",outfit:"推薦黑、深灰、海軍藍、奶茶色等低飽和單品，像是合身襯衫、西裝外套、直筒長褲或簡約洋裝；搭配皮革包、細腰帶與金屬腕錶，呈現知性俐落感。"}
+};
+/* 3 種膚色 × 3 種底調 × 4 種風格 = 36 組。組合會影響名稱、色票和說明。 */
+const skinColorSets={
+ fair:{warm:["#f4c5ae","#e9a28d","#c96f59"],cool:["#f0c8d2","#dba0b0","#b96e8b"],neutral:["#f0c7bd","#d9a69a","#b9827c"]},
+ light:{warm:["#e9a28d","#d47b62","#a95442"],cool:["#dba0b0","#b96e8b","#824c6c"],neutral:["#d9a69a","#b9827c","#93645f"]},
+ tan:{warm:["#c97b5e","#a95442","#783d32"],cool:["#bd7b91","#824c6c","#59384f"],neutral:["#bb8275","#93645f","#674540"]}
+};
+const eyeColorSets={
+ fair:{warm:["#f7e8ce","#e4c18f","#b8885d"],cool:["#f1e8f0","#c9bfd7","#92869f"],neutral:["#f5eadb","#d5c0a8","#a28b76"]},
+ light:{warm:["#f0d7ad","#c99a6b","#8b6245"],cool:["#e2e0ec","#b6b5cb","#77798e"],neutral:["#e9dfd0","#c4b09a","#817363"]},
+ tan:{warm:["#d9b27e","#a8784e","#624532"],cool:["#d3c7dc","#92849f","#5f526d"],neutral:["#d6c0a0","#9c8066","#5e493b"]}
+};
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".choice").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  const group=btn.dataset.group;state[group]=btn.dataset.value;
+  document.querySelectorAll(`.choice[data-group="${group}"]`).forEach(b=>{
+   const selected=b===btn;b.classList.toggle("active",selected);b.setAttribute("aria-pressed",String(selected));
+  });
+  const count=Object.values(state).filter(Boolean).length;
+  $("progress").style.width=`${count/3*100}%`;
+  $("progress").parentElement.setAttribute("aria-valuenow",String(count));
+  $("recommendBtn").disabled=count!==3;
+  $("results").classList.remove("show");
+  $("copyStatus").textContent="";
+ });
+});
+
+$("recommendBtn").addEventListener("click",()=>{
+ if(!Object.values(state).every(Boolean)){return;}
+ const skin=skins[state.skin],tone=tones[state.tone],style=styles[state.style];
+ const styleSuffix={natural:"日常版",sweet:"甜感版",cool:"清冷版",elegant:"氣質版"}[state.style];
+ const skinPrefix={fair:"明亮",light:"平衡",tan:"濃郁"}[state.skin];
+ const title=`${skinPrefix}${tone.name}・${styleSuffix}配色`;
+ $("resultTitle").textContent=title;
+ $("comboTag").textContent=`組合編號：${({fair:1,light:2,tan:3}[state.skin]-1)*12+({warm:1,cool:2,neutral:3}[state.tone]-1)*4+({natural:1,sweet:2,cool:3,elegant:4}[state.style])} / 36`;
+ $("resultDesc").textContent=`你選擇的是「${labels.skin[state.skin]} × ${labels.tone[state.tone]} × ${labels.style[state.style]}」。這組配色以${tone.lipWord}作為唇色方向，眼妝則使用${tone.eyeWord}的色彩邏輯，再依你的膚色明暗調整深淺，並配合${styleSuffix}的妝感。`;
+ $("lipName").textContent=`${tone.lipWord.split("、")[state.style==="natural"?0:state.style==="sweet"?1:state.style==="cool"?2:0]}・${style.lipName}`;
+ $("lipCopy").textContent=`${style.lipDesc}此組為${skin.name}與${tone.name}搭配，建議採用${skin.lipShift}層次。`;
+ const styleTint={natural:{lip:"#d7a09b",eye:"#bca98d"},sweet:{lip:"#e8a0b7",eye:"#cdb6d9"},cool:{lip:"#9b7a91",eye:"#9bb9ad"},elegant:{lip:"#985d62",eye:"#897b83"}}[state.style];
+ const shadeNames={
+  lip:{
+   warm:["蜜桃奶茶","杏桃玫瑰","焦糖玫瑰"],
+   cool:["乾燥玫瑰","莓果粉","梅子紫"],
+   neutral:["裸玫瑰","豆沙奶茶","玫瑰棕"]
+  },
+  eye:{
+   warm:["燕麥米","奶茶棕","柔霧咖"],
+   cool:["霧粉紫","灰紫棕","石墨灰"],
+   neutral:["香草米","奶茶棕","柔霧咖"]
+  }
+ };
+ const mixColor=(a,b,t)=>{const x=a.match(/[0-9a-f]{2}/gi).map(v=>parseInt(v,16)),y=b.match(/[0-9a-f]{2}/gi).map(v=>parseInt(v,16));return "#"+x.map((v,i)=>Math.round(v*(1-t)+y[i]*t).toString(16).padStart(2,"0")).join("");};
+ const lipBase=skinColorSets[state.skin][state.tone],eyeBase=eyeColorSets[state.skin][state.tone];
+ const strength={natural:.14,sweet:.23,cool:.28,elegant:.18}[state.style];
+ const lipColors=lipBase.map(c=>mixColor(c,styleTint.lip,strength));
+ const eyeColors=eyeBase.map(c=>mixColor(c,styleTint.eye,strength));
+ const renderSwatches=(id,colors,names)=>{$(id).innerHTML=colors.map((c,i)=>`<div class="swatch-item"><span class="swatch-dot" style="background:${c}"></span><span class="swatch-name">${names[i]}</span></div>`).join("");};
+ renderSwatches("lipSwatches",lipColors,shadeNames.lip[state.tone]);
+ renderSwatches("eyeSwatches",eyeColors,shadeNames.eye[state.tone]);
+ $("lipPalette").textContent=`建議色系：${shadeNames.lip[state.tone].join("、")}。以上以實際顏色呈現，不顯示色碼。`;
+ $("eyeName").textContent=`${state.style==="cool"?"薄荷灰綠":tone.eyeWord.split("、")[state.style==="natural"?0:state.style==="sweet"?1:state.style==="elegant"?2:1]}・${style.eyeName}`;
+ $("eyeCopy").textContent=`${style.eyeDesc}依${skin.name}調整明暗：${skin.eye}。`;
+ $("eyePalette").textContent=`建議色系：${shadeNames.eye[state.tone].join("、")}。淺色打底、主色暈染，再以深色加強眼尾。`;
+ $("tipText").textContent=`${style.tip}${skin.note}`;
+ const comboIndex=(({fair:0,light:1,tan:2}[state.skin])*12+({warm:0,cool:1,neutral:2}[state.tone])*4+({natural:0,sweet:1,cool:2,elegant:3}[state.style]));
+ const cuteIcons=["🌷","🧸","🍓","🦢","🐰","🩰","🪷","🍒","🦋","🐈","🌸","🍑","🪻","🐇","🧁","🎀","🦩","🍇","🐚","🪞","🌙","🦄","🍬","💐","🐣","🍡","🧸","🪿","🌼","🦊","🫧","🍰","🐼","🪸","💗","🐝"];
+ const inspoTitles={natural:["奶油系日常女孩","清透日系模特感","簡約通勤靈感","慵懶週末感"],sweet:["甜心芭蕾女孩","草莓奶油系","浪漫約會感","柔粉少女感"],cool:["薄荷清冷系","韓系極簡模特感","霧藍街拍感","清爽都會感"],elegant:["知性都會女主角","法式極簡感","俐落時裝模特感","優雅晚餐約會"]};
+ $("inspoIcon").textContent=cuteIcons[comboIndex];
+ $("inspoTitle").textContent=inspoTitles[state.style][({fair:0,light:1,tan:2}[state.skin]+({warm:0,cool:1,neutral:2}[state.tone]))%4];
+ $("inspoText").textContent=`這組的風格關鍵字是「${labels.style[state.style]}」。可以把它當作穿搭 moodboard：選擇相近色系、乾淨的輪廓，再用小配件增加個人特色。`;
+
+ const toneOutfit={warm:"可用奶油黃、駝色、暖米白或橄欖綠作為穿搭點綴，金色飾品通常能呼應暖色妝感。",cool:"可用冷白、霧藍、灰紫或炭灰搭配，銀色飾品能延續冷調的清爽感。",neutral:"可用米白、灰褐、裸粉或柔和大地色作主色，金銀色飾品都可嘗試。"};
+ const skinOutfit={fair:"若想增加整體層次，可用中等深度的外套或下身平衡明亮感。",light:"可從上衣與下身同色系、再用一件外套做層次，最容易搭配。",tan:"奶油白、焦糖、深藍或飽和度適中的色彩能形成漂亮對比，不必只穿深色。"};
+ $("outfitText").textContent=`${style.outfit} ${toneOutfit[state.tone]} ${skinOutfit[state.skin]}`;
+ $("results").classList.add("show");
+ $("results").scrollIntoView({behavior:"smooth",block:"start"});
+});
+$("copyBtn").addEventListener("click",async()=>{
+ const text=`我的 COLOR NOTE 配色建議\n膚色：${labels.skin[state.skin]}\n底調：${labels.tone[state.tone]}\n風格：${labels.style[state.style]}\n口紅：${$("lipName").textContent}\n口紅方向：${$("lipPalette").textContent}\n眼影：${$("eyeName").textContent}\n眼影方向：${$("eyePalette").textContent}\n上妝建議：${$("tipText").textContent}\n穿搭建議：${$("outfitText").textContent}\n風格靈感：${$("inspoTitle").textContent} ${$("inspoText").textContent}`;
+ try{if(!navigator.clipboard||!window.isSecureContext)throw new Error("Clipboard unavailable");await navigator.clipboard.writeText(text);$("copyStatus").textContent="已複製配色建議，可以貼到備忘錄囉。";}
+ catch(e){$("copyStatus").textContent="瀏覽器不允許直接複製，請手動複製以下內容：\n"+text;}
+});
+$("resetBtn").addEventListener("click",()=>{
+ Object.keys(state).forEach(k=>state[k]="");
+ document.querySelectorAll(".choice").forEach(b=>{b.classList.remove("active");b.setAttribute("aria-pressed","false");});
+ $("progress").style.width="0";$("progress").parentElement.setAttribute("aria-valuenow","0");
+ $("recommendBtn").disabled=true;$("results").classList.remove("show");$("copyStatus").textContent="";
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+</script>
+</body>
+</html>
